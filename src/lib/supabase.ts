@@ -48,3 +48,33 @@ export async function searchNames(params: SearchParams): Promise<NameResult[]> {
   if (error) throw new Error(error.message);
   return (data ?? []) as NameResult[];
 }
+
+const FEATURED_ROOTS = ['arabic', 'english', 'german', 'turkish'];
+
+export async function fetchFeaturedNames(): Promise<NameResult[]> {
+  const picked = await Promise.all(
+    FEATURED_ROOTS.map(async (root) => {
+      const { data, error } = await supabase.from('names').select('id').eq('root', root);
+      if (error) throw new Error(error.message);
+      const ids = (data ?? []) as { id: string }[];
+      if (ids.length === 0) return null;
+      return ids[Math.floor(Math.random() * ids.length)].id;
+    })
+  );
+
+  const chosen = picked.filter((id): id is string => id !== null);
+  if (chosen.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from('names')
+    .select(
+      'id, name, root, gender, meaning, description, native_script, pronunciation, popularity'
+    )
+    .in('id', chosen);
+
+  if (error) throw new Error(error.message);
+  const rows = (data ?? []) as Omit<NameResult, 'score'>[];
+  return rows
+    .map((row) => ({ ...row, score: row.popularity / 100 }))
+    .sort(() => Math.random() - 0.5);
+}

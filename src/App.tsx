@@ -6,6 +6,7 @@ import {
   CaseSensitive,
   Loader2,
   SearchX,
+  Shuffle,
   Baby,
   ChevronRight,
   ChevronLeft,
@@ -23,7 +24,7 @@ import {
   selectedGenderLabel,
 } from '@/components/Filters';
 import { ROOTS } from '@/lib/roots';
-import { searchNames, type NameResult, type SearchMode } from '@/lib/supabase';
+import { searchNames, fetchFeaturedNames, type NameResult, type SearchMode } from '@/lib/supabase';
 
 type Tab = SearchMode;
 
@@ -68,8 +69,13 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState(false);
   const [page, setPage] = useState(1);
+  const [featured, setFeatured] = useState<NameResult[]>([]);
+  const [featuredLoading, setFeaturedLoading] = useState(false);
+  const [featuredError, setFeaturedError] = useState<string | null>(null);
 
   const needsQuery = tab === 'meaning' || tab === 'name';
+  const noFilters =
+    tab === 'browse' && roots.length === 0 && genders.length === 0;
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedQuery(query.trim()), 250);
@@ -84,7 +90,24 @@ export default function App() {
     setPage(1);
   }, [tab, roots, genders, letter, debouncedQuery]);
 
+  const loadFeatured = useCallback(async () => {
+    setFeaturedLoading(true);
+    setFeaturedError(null);
+    try {
+      setFeatured(await fetchFeaturedNames());
+    } catch (e) {
+      setFeaturedError(e instanceof Error ? e.message : 'Something went wrong');
+    } finally {
+      setFeaturedLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (noFilters) loadFeatured();
+  }, [noFilters, loadFeatured]);
+
   const runSearch = useCallback(async () => {
+    if (noFilters) return;
     if (needsQuery && debouncedQuery.length === 0) {
       setResults([]);
       setSearched(false);
@@ -116,7 +139,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [tab, roots, genders, letter, debouncedQuery, needsQuery]);
+  }, [tab, roots, genders, letter, debouncedQuery, needsQuery, noFilters]);
 
   useEffect(() => {
     runSearch();
@@ -315,6 +338,51 @@ export default function App() {
 
         {/* Results */}
         <div id="names-results" className="mt-8">
+          {noFilters ? (
+            <>
+              <div className="mb-4 flex items-baseline justify-between gap-3">
+                <div>
+                  <h2 className="font-serif text-2xl font-semibold text-[#3c2d1e]">
+                    A taste of every culture
+                  </h2>
+                  <p className="text-sm text-[#8a7a6b]">
+                    One loved name from each heritage, picked at random.
+                  </p>
+                </div>
+                <button
+                  onClick={loadFeatured}
+                  disabled={featuredLoading}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#fefbf7] px-4 py-2 text-sm font-medium text-[#5b4130] ring-1 ring-[#ddd6cf] transition-colors hover:bg-[#f2eade] disabled:opacity-50"
+                >
+                  <Shuffle className={`h-4 w-4 ${featuredLoading ? 'animate-spin' : ''} text-[#a4484f]`} />
+                  Shuffle picks
+                </button>
+              </div>
+              {featuredError && (
+                <div className="rounded-2xl border border-[#ddd6cf] bg-[#f3dcdf] px-5 py-4 text-sm text-[#722f37]">
+                  {featuredError}
+                </div>
+              )}
+              {featuredLoading && featured.length === 0 && (
+                <div className="flex items-center justify-center gap-3 py-16 text-[#8a7a6b]">
+                  <Loader2 className="h-5 w-5 animate-spin text-[#a4484f]" />
+                  <span className="text-sm">Picking suggestions…</span>
+                </div>
+              )}
+              {!featuredLoading && featured.length > 0 && (
+                <div className="grid gap-4 md:grid-cols-2">
+                  {featured.map((item) => (
+                    <NameCard
+                      key={item.id}
+                      item={item}
+                      onExploreMeaning={exploreMeaning}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
           {loading && (
             <div className="flex items-center justify-center gap-3 py-16 text-[#8a7a6b]">
               <Loader2 className="h-5 w-5 animate-spin text-[#a4484f]" />
@@ -400,7 +468,9 @@ export default function App() {
             </div>
           )}
 
-          {!loading && !searched && <RootPrompts onPickRoot={pickRoot} />}
+          {!loading && !searched && !noFilters && <RootPrompts onPickRoot={pickRoot} />}
+            </>
+          )}
         </div>
 
         {/* Suggest a culture / leave feedback */}
