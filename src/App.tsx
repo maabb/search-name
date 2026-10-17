@@ -71,6 +71,14 @@ export default function App() {
 
   const needsQuery = tab === 'meaning' || tab === 'name';
 
+  // A search only happens once the user actually asks for something:
+  // a heritage/gender pick, a letter, or typed text.
+  const hasActiveSearch =
+    roots.length > 0 ||
+    genders.length > 0 ||
+    (tab === 'letter' && letter !== null) ||
+    (needsQuery && debouncedQuery.length > 0);
+
   useEffect(() => {
     const t = setTimeout(() => setDebouncedQuery(query.trim()), 250);
     return () => clearTimeout(t);
@@ -85,6 +93,11 @@ export default function App() {
   }, [tab, roots, genders, letter, debouncedQuery]);
 
   const runSearch = useCallback(async () => {
+    if (!hasActiveSearch) {
+      setResults([]);
+      setSearched(false);
+      return;
+    }
     if (needsQuery && debouncedQuery.length === 0) {
       setResults([]);
       setSearched(false);
@@ -116,7 +129,7 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [tab, roots, genders, letter, debouncedQuery, needsQuery]);
+  }, [tab, roots, genders, letter, debouncedQuery, needsQuery, hasActiveSearch]);
 
   useEffect(() => {
     runSearch();
