@@ -145,11 +145,11 @@ export function CultureRequest() {
             Something went wrong sending your suggestion, please try again.
           </p>
         )}
-
+<div className="flex justify-end">
         <button
           type="submit"
           disabled={status === 'sending' || !cultureName.trim()}
-          className="inline-flex w-full items-center justify-end gap-2 rounded-xl bg-[#6b4e2e] px-5 py-3 text-sm font-semibold text-[#fefbf7] shadow-sm transition-all hover:bg-[#5a4226] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#6b4e2e] px-5 py-3 text-sm font-semibold text-[#fefbf7] shadow-sm transition-all hover:bg-[#5a4226] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
         >
           {status === 'sending' ? (
             <>
@@ -163,6 +163,7 @@ export function CultureRequest() {
             </>
           )}
         </button>
+  </>
       </form>
     </div>
   );
