@@ -12,6 +12,9 @@ import {
   BookOpen,
   Globe2,
   Heart,
+  Sprout,
+  Sun,
+  Star,
 } from 'lucide-react';
 import { NameCard } from '@/components/NameCard';
 import { CultureRequest } from '@/components/CultureRequest';
@@ -209,27 +212,26 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#f9f4ec] font-sans text-[#3c2d1e]">
       {/* Hero */}
-      <header className="bg-[#f5d8c1]/50 pb-8 pt-12 sm:pt-16">
+      <header className="bg-[#f5d8c1]/50 pb-10 pt-12 sm:pt-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full bg-[#fefbf7] px-4 py-1.5 text-sm font-medium text-[#6f4100] ring-1 ring-[#ddd6cf]">
             <Baby className="h-4 w-4 text-[#a4484f]" />
             Baby names for bicultural families
           </div>
           <h1 className="font-serif text-4xl font-semibold leading-tight tracking-tight text-[#3c2d1e] sm:text-5xl">
-            The perfect name for your baby,
-            <span className="block text-[#722f37]">from every culture you love</span>
+            Behind every name,
+            <span className="block text-[#722f37]">a world waiting to be discovered</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-[#7a6a58]">
-            You're not just choosing a name, you're choosing a story. Find the
-            roots behind the names you love, feel the meaning in your own
-            words, and discover the one that feels like yours.
+            From ancient roots to new beginnings, explore the meanings,
+            cultures, and stories that make every name special.
           </p>
           {/* Quick trust strip */}
           <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2 text-sm text-[#7a6a58]">
             {[
-              { icon: BookOpen, text: "Find your name's root and story" },
-              { icon: Globe2, text: 'Discover names from cultures you love' },
-              { icon: Heart, text: 'A name that touches your soul and builds memories' },
+              { icon: BookOpen, text: "Every name carries a story" },
+              { icon: Globe2, text: "Heritages woven together" },
+              { icon: Heart, text: "A name that feels like yours" },
             ].map(({ icon: Icon, text }) => (
               <span
                 key={text}
@@ -241,12 +243,40 @@ export default function App() {
             ))}
           </div>
         </div>
+
+        {/* Warm photo collage */}
+        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-12 items-end gap-3 px-4 sm:gap-4 sm:px-6">
+          <figure className="col-span-4 overflow-hidden rounded-2xl shadow-md ring-1 ring-[#ddd6cf] sm:col-span-3">
+            <img
+              src="https://images.pexels.com/photos/16579294/pexels-photo-16579294.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+              alt="A baby's tiny feet resting in a soft basket"
+              className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-56"
+              loading="lazy"
+            />
+          </figure>
+          <figure className="col-span-8 overflow-hidden rounded-2xl shadow-lg ring-1 ring-[#ddd6cf] sm:col-span-6">
+            <img
+              src="/assets/images/image.png"
+              alt="Wooden letter blocks spelling a baby name beside an open notebook, a warm cup, and tiny shoes on a linen tablecloth"
+              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-72"
+            />
+          </figure>
+          <figure className="col-span-12 overflow-hidden rounded-2xl shadow-md ring-1 ring-[#ddd6cf] sm:col-span-3">
+            <img
+              src="https://images.pexels.com/photos/20254158/pexels-photo-20254158.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+              alt="A vintage book and a cup of tea on white linens with greenery"
+              className="h-40 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-56"
+              loading="lazy"
+            />
+          </figure>
+        </div>
       </header>
 
       <main className="mx-auto max-w-4xl px-4 pb-24 sm:px-6">
         {/* Choose how to search */}
         <section className="mt-8 rounded-2xl border border-[#ddd6cf] bg-[#fefbf7] p-5 shadow-sm sm:p-6">
-          <h2 className="font-serif text-sm font-medium uppercase tracking-wide text-[#8a7a6b]">
+          <h2 className="flex items-center gap-2 font-serif text-sm font-medium uppercase tracking-wide text-[#8a7a6b]">
+            <Sparkles className="h-4 w-4 text-[#a4484f]" />
             How do you want to find the name?
           </h2>
           <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -280,7 +310,8 @@ export default function App() {
           id="tell-us-what-matters"
           className="mt-4 scroll-mt-4 rounded-2xl border border-[#ddd6cf] bg-[#fefbf7] p-5 shadow-sm sm:p-6"
         >
-          <h2 className="font-serif text-lg font-semibold text-[#3c2d1e]">
+          <h2 className="flex items-center gap-2 font-serif text-lg font-semibold text-[#3c2d1e]">
+            <Heart className="h-5 w-5 text-[#a4484f]" />
             Tell us what matters to you
           </h2>
 
@@ -394,7 +425,8 @@ export default function App() {
           {!loading && !error && results.length > 0 && (
             <>
               <div className="mb-4 flex items-baseline gap-3">
-                <h2 className="font-serif text-2xl font-semibold text-[#3c2d1e]">
+                <h2 className="flex items-center gap-2 font-serif text-2xl font-semibold text-[#3c2d1e]">
+                  <Sprout className="h-6 w-6 text-[#a4484f]" />
                   Names waiting for you
                 </h2>
                 <p className="text-sm text-[#8a7a6b]">
@@ -472,15 +504,23 @@ export default function App() {
         </div>
       </main>
 
-      <footer className="border-t border-[#ddd6cf] bg-[#f5d8c1]/40 py-10">
+      {/* Footer */}
+      <footer className="relative overflow-hidden border-t border-[#ddd6cf] bg-[#f5d8c1]/40 py-12">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
-          <p className="font-serif text-lg font-medium text-[#3c2d1e]">
-            One name, two heritages, a story they carry for life.
+          <div className="mx-auto mb-5 flex items-center justify-center gap-2 text-[#a4484f]">
+            <Sun className="h-4 w-4" />
+            <Star className="h-3 w-3" />
+            <Heart className="h-4 w-4" />
+            <Star className="h-3 w-3" />
+            <Sun className="h-4 w-4" />
+          </div>
+          <p className="font-serif text-xl font-medium leading-snug text-[#3c2d1e] sm:text-2xl">
+            A little name for a love beyond words.
+            <span className="mt-1 block">Every name begins with a story.</span>
           </p>
-          <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-[#7a6a58]">
-            Every baby name here carries its true meaning in English, its
-            original culture and script, so both sides of the family can say
-            it with pride.
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[#7a6a58]">
+            Let yours unfold — meaning, heritage, and heart, all in one name
+            both sides of the family can say with pride.
           </p>
         </div>
       </footer>

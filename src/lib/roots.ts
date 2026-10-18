@@ -18,8 +18,8 @@ export const ROOTS: RootInfo[] = [
     nativeName: 'English heritage',
     flag: 'EN',
     icon: BookOpen,
-    accent: '#f3dcdf',
-    accentText: '#722f37',
+    accent: '#efe5d3',
+    accentText: '#6b4e2e',
     letterCase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   },
   {
@@ -28,8 +28,8 @@ export const ROOTS: RootInfo[] = [
     nativeName: 'Deutsch',
     flag: 'DE',
     icon: Languages,
-    accent: '#f3dcdf',
-    accentText: '#722f37',
+    accent: '#e7d9bf',
+    accentText: '#5c4429',
     letterCase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ',
   },
   {
@@ -38,8 +38,8 @@ export const ROOTS: RootInfo[] = [
     nativeName: 'Türkçe',
     flag: 'TR',
     icon: ArrowRightLeft,
-    accent: '#f3dcdf',
-    accentText: '#722f37',
+    accent: '#e2d2b6',
+    accentText: '#6a4f2c',
     letterCase: 'ABCDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ',
   },
   {
@@ -48,8 +48,8 @@ export const ROOTS: RootInfo[] = [
     nativeName: 'العربية',
     flag: 'AR',
     icon: BookOpen,
-    accent: '#f3dcdf',
-    accentText: '#722f37',
+    accent: '#dcc9a9',
+    accentText: '#5a4226',
     letterCase: 'ABCDEFGHJKLMNPQRSTUVWXYZ',
   },
 ];
