@@ -419,8 +419,6 @@ export default function App() {
                   {results.length} name{results.length === 1 ? '' : 's'}
                   {totalPages > 1 ? ` · page ${safePage} of ${totalPages}` : ''}
                   {' · '}
-                  {selectedRootLabel(roots)}
-                  {selectedGenderLabel(genders)}
                   
                 </p>
               </div>
