@@ -13,8 +13,6 @@ import {
   Globe2,
   Heart,
   Sprout,
-  Sun,
-  Star,
 } from 'lucide-react';
 import { NameCard } from '@/components/NameCard';
 import { CultureRequest } from '@/components/CultureRequest';
@@ -25,7 +23,7 @@ import {
   selectedRootLabel,
   selectedGenderLabel,
 } from '@/components/Filters';
-import { ROOTS } from '@/lib/roots';
+import { ROOTS, rootInfo } from '@/lib/roots';
 import {
   searchNames,
   matchNames,
@@ -258,7 +256,7 @@ export default function App() {
             <img
               src="/assets/images/image.png"
               alt="Wooden letter blocks spelling a baby name beside an open notebook, a warm cup, and tiny shoes on a linen tablecloth"
-              className="h-48 w-full object-cover transition-transform duration-500 hover:scale-105 sm:h-72"
+              className="h-48 w-full scale-[1.22] object-cover transition-transform duration-500 hover:scale-[1.28] sm:h-72"
             />
           </figure>
           <figure className="col-span-12 overflow-hidden rounded-2xl shadow-md ring-1 ring-[#ddd6cf] sm:col-span-3">
@@ -297,7 +295,7 @@ export default function App() {
                       : 'bg-[#f9f4ec] text-[#5b4130] ring-1 ring-[#ddd6cf] hover:bg-[#f2eade]'
                   }`}
                 >
-                  <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-[#f3dcdf]' : 'text-[#b09a83]'}`} />
+                  <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-[#e7d9bf]' : 'text-[#b09a83]'}`} />
                   <span className="text-center leading-tight sm:text-left">{t.label}</span>
                 </button>
               );
@@ -317,10 +315,7 @@ export default function App() {
 
           <div className="mt-4 space-y-5">
             <div>
-              <p className="mb-2 text-sm font-medium text-[#5b4130]">
-                Family heritage
-                <span className="ml-2 text-xs font-normal text-[#8a7a6b]">optional</span>
-              </p>
+              <p className="mb-2 text-sm font-medium text-[#5b4130]">Family heritage</p>
               <RootFilter value={roots} onChange={setRoots} />
             </div>
 
@@ -417,7 +412,7 @@ export default function App() {
           )}
 
           {!loading && error && (
-            <div className="rounded-2xl border border-[#ddd6cf] bg-[#f3dcdf] px-5 py-4 text-sm text-[#722f37]">
+            <div className="rounded-2xl border border-[#ddd6cf] bg-[#efe5d3] px-5 py-4 text-sm text-[#6b4e2e]">
               {error}
             </div>
           )}
@@ -464,7 +459,7 @@ export default function App() {
                       onClick={() => goToPage(p)}
                       className={`h-9 w-9 rounded-full text-sm font-medium transition-colors ${
                         p === safePage
-                          ? 'bg-[#722f37] text-[#fefbf7]'
+                          ? 'bg-[#6b4e2e] text-[#fefbf7]'
                           : 'bg-[#fefbf7] text-[#5b4130] ring-1 ring-[#ddd6cf] hover:bg-[#f2eade]'
                       }`}
                     >
@@ -507,12 +502,19 @@ export default function App() {
       {/* Footer */}
       <footer className="relative overflow-hidden border-t border-[#ddd6cf] bg-[#f5d8c1]/40 py-12">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
-          <div className="mx-auto mb-5 flex items-center justify-center gap-2 text-[#a4484f]">
-            <Sun className="h-4 w-4" />
-            <Star className="h-3 w-3" />
-            <Heart className="h-4 w-4" />
-            <Star className="h-3 w-3" />
-            <Sun className="h-4 w-4" />
+          <div className="mx-auto mb-5 flex items-center justify-center gap-3">
+            {ROOTS.map((r) => {
+              const Icon = r.icon;
+              return (
+                <span
+                  key={r.id}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fefbf7] ring-1 ring-[#ddd6cf]"
+                  title={r.label}
+                >
+                  <Icon className="h-4 w-4" style={{ color: r.accentText }} />
+                </span>
+              );
+            })}
           </div>
           <p className="font-serif text-xl font-medium leading-snug text-[#3c2d1e] sm:text-2xl">
             A little name for a love beyond words.
@@ -526,6 +528,13 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+function FlagIcon({ rootId }: { rootId: string }) {
+  const info = rootInfo(rootId);
+  if (!info) return null;
+  const Icon = info.icon;
+  return <Icon className="h-4 w-4" />;
 }
 
 function RootPrompts({ onPickRoot }: { onPickRoot: (root: string) => void }) {
@@ -547,10 +556,10 @@ function RootPrompts({ onPickRoot }: { onPickRoot: (root: string) => void }) {
           >
             <span className="flex items-center gap-3">
               <span
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#fefbf7] text-xs font-bold"
-                style={{ color: r.accentText }}
+                className="flex h-9 w-9 items-center justify-center rounded-lg"
+                style={{ background: '#fefbf7', color: r.accentText }}
               >
-                {r.flag}
+                <FlagIcon rootId={r.id} />
               </span>
               <span>
                 <span className="block text-sm font-semibold" style={{ color: r.accentText }}>
