@@ -69,9 +69,13 @@ let extractorPromise: Promise<import('@xenova/transformers').FeatureExtractionPi
 // catalog, so vector scores are comparable.
 async function embedQuery(text: string): Promise<number[]> {
   if (!extractorPromise) {
-    extractorPromise = import('@xenova/transformers').then((m) =>
-      m.pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2')
-    );
+    // allowLocalModels must be off: the app's dev server would answer the
+    // local model request with index.html and break JSON parsing.
+    extractorPromise = import('@xenova/transformers').then((m) => {
+      m.env.allowLocalModels = false;
+      m.env.useBrowserCache = true;
+      return m.pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+    });
   }
   const extractor = await extractorPromise;
   const output = await extractor([text], { pooling: 'mean', normalize: true });
