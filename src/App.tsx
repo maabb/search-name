@@ -17,7 +17,6 @@ import { NameCard } from '@/components/NameCard';
 import { CultureRequest } from '@/components/CultureRequest';
 import {
   GenderFilter,
-  LetterBar,
   RootFilter,
   MatchTypeBar,
   selectedRootLabel,
@@ -29,7 +28,6 @@ import {
   matchNames,
   type NameResult,
   type SearchMode,
-  type MatchType,
 } from '@/lib/supabase';
 import type { MatchTypeValue } from '@/components/Filters';
 
@@ -48,7 +46,7 @@ const TABS: { id: Tab; label: string; icon: typeof LayoutGrid; hint: string }[] 
     id: 'letter',
     label: 'Starts / ends with',
     icon: CaseSensitive,
-    hint: 'Type how a name should begin or end — one letter or several.',
+    hint: 'Type how a name should begin or end.',
   },
   {
     id: 'meaning',
@@ -68,9 +66,7 @@ export default function App() {
   const [tab, setTab] = useState<Tab>('browse');
   const [roots, setRoots] = useState<string[]>([]);
   const [genders, setGenders] = useState<string[]>([]);
-  const [letter, setLetter] = useState<string | null>(null);
   const [letters, setLetters] = useState<string[]>([]);
-  const [match, setMatch] = useState<MatchType>('starts');
   const [barMatch, setBarMatch] = useState<MatchTypeValue>('starts');
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -89,7 +85,7 @@ export default function App() {
   const hasActiveSearch =
     roots.length > 0 ||
     genders.length > 0 ||
-    (isLetterTab && (letter !== null || debouncedLetters.length > 0)) ||
+    (isLetterTab && debouncedLetters.length > 0) ||
     (needsQuery && debouncedQuery.length > 0);
 
   useEffect(() => {
@@ -106,13 +102,12 @@ export default function App() {
   }, [letters]);
 
   useEffect(() => {
-    setLetter(null);
     setLetters([]);
   }, [roots, tab]);
 
   useEffect(() => {
     setPage(1);
-  }, [tab, roots, genders, letter, debouncedLetters, match, debouncedQuery]);
+  }, [tab, roots, genders, debouncedLetters, barMatch, debouncedQuery]);
 
   const runSearch = useCallback(async () => {
     if (!hasActiveSearch) {
@@ -125,7 +120,7 @@ export default function App() {
       setSearched(false);
       return;
     }
-    if (isLetterTab && !letter && debouncedLetters.length === 0) {
+    if (isLetterTab && debouncedLetters.length === 0) {
       setResults([]);
       setSearched(false);
       return;
@@ -136,31 +131,19 @@ export default function App() {
     try {
       let data: NameResult[];
       if (isLetterTab) {
-        // A single letter pick uses the alphabet bar; typed beginnings
-        // and endings use the fast anchored matcher.
-        data = letter
-          ? await matchNames({
-              roots,
-              genders,
-              match: 'starts',
-              text: letter,
-              limit: 60,
-            })
-          : await matchNames({
-              roots,
-              genders,
-              match: barMatch,
-              text: debouncedLetters.join(''),
-              limit: 60,
-            });
+        data = await matchNames({
+          roots,
+          genders,
+          match: barMatch,
+          text: debouncedLetters.join(''),
+          limit: 60,
+        });
       } else {
         data = await searchNames({
           mode: tab,
           roots,
           genders,
-          letter,
           query: needsQuery ? debouncedQuery : null,
-          match,
           limit: 60,
         });
       }
@@ -177,7 +160,6 @@ export default function App() {
     tab,
     roots,
     genders,
-    letter,
     debouncedLetters,
     barMatch,
     debouncedQuery,
@@ -306,31 +288,32 @@ export default function App() {
             <div>
               <p className="mb-2 text-sm font-medium text-[#5b4130]">
                 Family heritage
-                <span className="ml-2 text-xs font-normal text-[#8a7a6b]">
-                  optional: choose one, several, or none for every culture
-                </span>
+                <span className="ml-2 text-xs font-normal text-[#8a7a6b]">optional</span>
               </p>
               <RootFilter value={roots} onChange={setRoots} />
             </div>
 
             {isLetterTab && (
-              <>
-                <div>
-                  <p className="mb-2 text-sm font-medium text-[#5b4130]">Match type</p>
+              <div>
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <p className="text-sm font-medium text-[#5b4130]">
+                    {barMatch === 'ends' ? 'Ends with' : 'Starts with'}
+                  </p>
                   <MatchTypeBar value={barMatch} onChange={setBarMatch} />
                 </div>
-                <div>
-                  <p className="mb-2 text-sm font-medium text-[#5b4130]">
-                    {barMatch === 'ends'
-                      ? 'Name should end with'
-                      : 'Name should start with'}
-                    <span className="ml-2 text-xs font-normal text-[#8a7a6b]">
-                      optional: pick a letter, or type several
-                    </span>
-                  </p>
-                  <LetterBar rootId={roots[0] ?? null} value={letter} onChange={setLetter} />
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b09a83]" />
+                  <input
+                    type="text"
+                    value={letters.join('')}
+                    onChange={(e) => setLetters([e.target.value])}
+                    placeholder={
+                      barMatch === 'ends' ? 'e.g. an, ley…' : 'e.g. Am, Zey…'
+                    }
+                    className="w-full rounded-xl border-0 bg-[#f9f4ec] py-3.5 pl-12 pr-4 text-base text-[#3c2d1e] ring-1 ring-[#ddd6cf] transition-shadow placeholder:text-[#b09a83] focus:outline-none focus:ring-2 focus:ring-[#a4484f]"
+                  />
                 </div>
-              </>
+              </div>
             )}
 
             {needsQuery && (
@@ -366,33 +349,15 @@ export default function App() {
               </div>
             )}
 
-            {isLetterTab && letter === null && (
-              <div>
-                <div className="relative">
-                  <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b09a83]" />
-                  <input
-                    type="text"
-                    value={letters.join('')}
-                    onChange={(e) => setLetters([e.target.value])}
-                    placeholder={
-                      barMatch === 'ends' ? 'e.g. an, ley, e…' : 'e.g. Am, Zey, Lay…'
-                    }
-                    className="w-full rounded-xl border-0 bg-[#f9f4ec] py-3.5 pl-12 pr-4 text-base text-[#3c2d1e] ring-1 ring-[#ddd6cf] transition-shadow placeholder:text-[#b09a83] focus:outline-none focus:ring-2 focus:ring-[#a4484f]"
-                  />
-                </div>
-              </div>
-            )}
-
             <div>
               <p className="mb-2 text-sm font-medium text-[#5b4130]">Gender</p>
               <GenderFilter value={genders} onChange={setGenders} />
             </div>
 
-            {(roots.length > 0 || letter || letters.join('') || query || genders.length > 0) && (
+            {(roots.length > 0 || letters.join('') || query || genders.length > 0) && (
               <button
                 onClick={() => {
                   setRoots([]);
-                  setLetter(null);
                   setLetters([]);
                   setQuery('');
                   setGenders([]);
@@ -403,11 +368,9 @@ export default function App() {
               </button>
             )}
 
-            {isLetterTab && letter === null && debouncedLetters.length === 0 && (
+            {isLetterTab && debouncedLetters.length === 0 && (
               <p className="text-sm text-[#8a7a6b]">
-                Pick a letter above, or type how the name should{' '}
-                {barMatch === 'ends' ? 'end' : 'begin'} — like "Am" for
-                Amira and Amelia.
+                Type how the name should {barMatch === 'ends' ? 'end' : 'begin'}.
               </p>
             )}
           </div>

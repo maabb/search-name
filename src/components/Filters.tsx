@@ -88,45 +88,6 @@ export function RootFilter({ value, onChange }: RootFilterProps) {
   );
 }
 
-interface LetterBarProps {
-  rootId: string | null;
-  value: string | null;
-  onChange: (value: string | null) => void;
-}
-
-export function LetterBar({ rootId, value, onChange }: LetterBarProps) {
-  const root = ROOTS.find((r) => r.id === rootId);
-  const letters = (root?.letterCase ?? 'ABCDEFGHIJKLMNOPQRSTUVWXYZ').split('');
-
-  return (
-    <div className="flex flex-wrap gap-1">
-      <button
-        onClick={() => onChange(null)}
-        className={`min-w-[2rem] rounded-md px-1.5 py-1 text-xs font-semibold transition-colors ${
-          value === null
-            ? 'bg-[#3c2d1e] text-[#fefbf7]'
-            : 'bg-[#fefbf7] text-[#8a7a6b] ring-1 ring-[#ddd6cf] hover:bg-[#f2eade]'
-        }`}
-      >
-        All
-      </button>
-      {letters.map((letter) => (
-        <button
-          key={letter}
-          onClick={() => onChange(value === letter ? null : letter)}
-          className={`min-w-[2rem] rounded-md px-1.5 py-1 text-xs font-semibold transition-colors ${
-            value === letter
-              ? 'bg-[#3c2d1e] text-[#fefbf7]'
-              : 'bg-[#fefbf7] text-[#5b4130] ring-1 ring-[#ddd6cf] hover:bg-[#f2eade]'
-          }`}
-        >
-          {letter}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 export type MatchTypeValue = 'starts' | 'ends';
 
 interface MatchTypeBarProps {
