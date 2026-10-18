@@ -208,7 +208,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="paper-backdrop min-h-screen font-sans text-[#3c2d1e]">
+    <div className="min-h-screen bg-[#f9f4ec] font-sans text-[#3c2d1e]">
       {/* Hero */}
       <header className="bg-[#f5d8c1]/50 pb-10 pt-12 sm:pt-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
@@ -492,38 +492,6 @@ export default function App() {
 
           {!loading && !searched && <RootPrompts onPickRoot={pickRoot} />}
         </div>
-
-        {/* The soul of old letters */}
-        <section className="mt-12 overflow-hidden rounded-xl shadow-sm md:flex">
-          <figure className="md:w-2/5">
-            <img
-              src="https://images.pexels.com/photos/18690578/pexels-photo-18690578.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
-              alt="A bundle of old handwritten letters tied with twine"
-              className="h-56 w-full object-cover md:h-full"
-              loading="lazy"
-            />
-          </figure>
-          <div
-            className="relative flex flex-col justify-center p-7 md:w-3/5 md:p-9"
-            style={{
-              background:
-                'radial-gradient(120% 90% at 20% 0%, rgba(255,252,244,0.95) 0%, rgba(247,239,223,0.9) 45%, rgba(240,228,204,0.95) 100%)',
-            }}
-          >
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#a08a63]">
-              Why names feel like letters
-            </p>
-            <p className="mt-3 font-serif text-xl font-medium leading-snug text-[#3c2d1e] sm:text-2xl">
-              Old letters were tied with string and kept for a lifetime —
-              because of the name written at the top.
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-[#7a6a58]">
-              Every name in this collection is chosen the way a letter is
-              kept: with meaning worth holding onto, a heritage worth
-              honoring, and a sound both families love to say.
-            </p>
-          </div>
-        </section>
 
         {/* Suggest a culture / leave feedback */}
         <div className="mt-10">

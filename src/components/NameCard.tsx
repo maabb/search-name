@@ -55,7 +55,7 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
         }}
       />
 
-      {/* calm botanical corners */}
+      {/* vine ornament corners */}
       <CornerSprig className="absolute left-0 top-0" />
       <CornerSprig className="absolute right-0 top-0 -scale-x-100" />
       <CornerSprig className="absolute bottom-0 left-0 -scale-y-100" />
@@ -136,38 +136,13 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
 
 function CornerSprig({ className }: { className: string }) {
   return (
-    <svg
+    <img
       aria-hidden
-      viewBox="0 0 64 64"
-      className={`h-12 w-12 text-[#7d8b6a] ${className}`}
-      fill="none"
-      style={{ opacity: 0.75 }}
-    >
-      <path
-        d="M6 58 C10 44 14 36 24 28 C32 22 42 18 54 16"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14 46 C20 44 26 44 30 46 C26 50 20 50 14 46 Z"
-        fill="currentColor"
-        opacity="0.55"
-      />
-      <path
-        d="M26 34 C32 30 38 29 43 31 C39 36 32 37 26 34 Z"
-        fill="currentColor"
-        opacity="0.7"
-      />
-      <path
-        d="M40 22 C45 19 51 18 56 20 C52 25 45 26 40 22 Z"
-        fill="currentColor"
-        opacity="0.6"
-      />
-      <circle cx="50" cy="14" r="2.2" fill="#c98d5f" />
-      <circle cx="56" cy="20" r="1.6" fill="#c98d5f" opacity="0.8" />
-      <circle cx="12" cy="54" r="1.8" fill="#c98d5f" opacity="0.7" />
-    </svg>
+      src="/assets/images/image%20copy.png"
+      alt=""
+      className={`pointer-events-none h-10 w-auto mix-blend-multiply ${className}`}
+      style={{ opacity: 0.8 }}
+    />
   );
 }
 
