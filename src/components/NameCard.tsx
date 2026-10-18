@@ -55,11 +55,11 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
         }}
       />
 
-      {/* vine ornament corners */}
+      {/* vine ornament corners (twine knot takes the top right) */}
       <CornerSprig className="absolute left-0 top-0" />
-      <CornerSprig className="absolute right-0 top-0 -scale-x-100" />
       <CornerSprig className="absolute bottom-0 left-0 -scale-y-100" />
       <CornerSprig className="absolute bottom-0 right-0 -scale-100" />
+      <TwineKnot className="absolute right-0 top-0" />
 
       <div className="relative p-5 pl-6">
         <div className="flex items-start justify-between gap-3">
@@ -142,6 +142,18 @@ function CornerSprig({ className }: { className: string }) {
       alt=""
       className={`pointer-events-none h-10 w-auto mix-blend-multiply ${className}`}
       style={{ opacity: 0.8 }}
+    />
+  );
+}
+
+function TwineKnot({ className }: { className: string }) {
+  return (
+    <img
+      aria-hidden
+      src="/assets/images/image%20copy%202.png"
+      alt=""
+      className={`pointer-events-none h-16 w-auto mix-blend-multiply ${className}`}
+      style={{ opacity: 0.85 }}
     />
   );
 }
