@@ -45,7 +45,9 @@ export async function searchNames(params: SearchParams): Promise<NameResult[]> {
   if (cached) return cached;
 
   if (params.mode === 'meaning' && params.query) {
-    return searchSemantic(params);
+    const semantic = await searchSemantic(params);
+    setCached(params, semantic);
+    return semantic;
   }
 
   const { data, error } = await supabase.rpc('search_names', {

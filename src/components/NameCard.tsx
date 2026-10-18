@@ -40,7 +40,9 @@ export function NameCard({ item, showScore }: Props) {
           <span
             className="inline-flex items-center gap-1.5 rounded-full bg-[#fbf7f0] px-2.5 py-1 text-xs font-medium text-[#6b4e2e] ring-1 ring-[#ddd0bf]"
           >
-            <span className="text-sm leading-none">{info.emoji ?? info.flag}</span>
+            <span className="text-sm leading-none">
+              {info?.emoji ?? info?.flag ?? ROOT_LABEL[item.root] ?? item.root}
+            </span>
             {ROOT_LABEL[item.root] ?? item.root} root
           </span>
           {genderTone && (
