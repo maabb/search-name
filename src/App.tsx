@@ -19,11 +19,19 @@ import {
   GenderFilter,
   LetterBar,
   RootFilter,
+  MatchTypeBar,
   selectedRootLabel,
   selectedGenderLabel,
 } from '@/components/Filters';
 import { ROOTS } from '@/lib/roots';
-import { searchNames, type NameResult, type SearchMode } from '@/lib/supabase';
+import {
+  searchNames,
+  matchNames,
+  type NameResult,
+  type SearchMode,
+  type MatchType,
+} from '@/lib/supabase';
+import type { MatchTypeValue } from '@/components/Filters';
 
 type Tab = SearchMode;
 
@@ -38,9 +46,9 @@ const TABS: { id: Tab; label: string; icon: typeof LayoutGrid; hint: string }[] 
   },
   {
     id: 'letter',
-    label: 'Starts with',
+    label: 'Starts / ends with',
     icon: CaseSensitive,
-    hint: 'Have a letter in mind? Choose it, and optionally a heritage.',
+    hint: 'Type how a name should begin or end — one letter or several.',
   },
   {
     id: 'meaning',
@@ -61,8 +69,12 @@ export default function App() {
   const [roots, setRoots] = useState<string[]>([]);
   const [genders, setGenders] = useState<string[]>([]);
   const [letter, setLetter] = useState<string | null>(null);
+  const [letters, setLetters] = useState<string[]>([]);
+  const [match, setMatch] = useState<MatchType>('starts');
+  const [barMatch, setBarMatch] = useState<MatchTypeValue>('starts');
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [debouncedLetters, setDebouncedLetters] = useState<string[]>([]);
   const [results, setResults] = useState<NameResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -70,13 +82,14 @@ export default function App() {
   const [page, setPage] = useState(1);
 
   const needsQuery = tab === 'meaning' || tab === 'name';
+  const isLetterTab = tab === 'letter';
 
   // A search only happens once the user actually asks for something:
-  // a heritage/gender pick, a letter, or typed text.
+  // a heritage/gender pick, a beginning/ending, or typed text.
   const hasActiveSearch =
     roots.length > 0 ||
     genders.length > 0 ||
-    (tab === 'letter' && letter !== null) ||
+    (isLetterTab && (letter !== null || debouncedLetters.length > 0)) ||
     (needsQuery && debouncedQuery.length > 0);
 
   useEffect(() => {
@@ -85,12 +98,21 @@ export default function App() {
   }, [query]);
 
   useEffect(() => {
+    const t = setTimeout(
+      () => setDebouncedLetters(letters.map((s) => s.trim().toLowerCase()).filter(Boolean)),
+      250
+    );
+    return () => clearTimeout(t);
+  }, [letters]);
+
+  useEffect(() => {
     setLetter(null);
+    setLetters([]);
   }, [roots, tab]);
 
   useEffect(() => {
     setPage(1);
-  }, [tab, roots, genders, letter, debouncedQuery]);
+  }, [tab, roots, genders, letter, debouncedLetters, match, debouncedQuery]);
 
   const runSearch = useCallback(async () => {
     if (!hasActiveSearch) {
@@ -103,7 +125,7 @@ export default function App() {
       setSearched(false);
       return;
     }
-    if (tab === 'letter' && !letter) {
+    if (isLetterTab && !letter && debouncedLetters.length === 0) {
       setResults([]);
       setSearched(false);
       return;
@@ -112,14 +134,36 @@ export default function App() {
     setLoading(true);
     setError(null);
     try {
-      const data = await searchNames({
-        mode: tab,
-        roots,
-        genders,
-        letter,
-        query: needsQuery ? debouncedQuery : null,
-        limit: 60,
-      });
+      let data: NameResult[];
+      if (isLetterTab) {
+        // A single letter pick uses the alphabet bar; typed beginnings
+        // and endings use the fast anchored matcher.
+        data = letter
+          ? await matchNames({
+              roots,
+              genders,
+              match: 'starts',
+              text: letter,
+              limit: 60,
+            })
+          : await matchNames({
+              roots,
+              genders,
+              match: barMatch,
+              text: debouncedLetters.join(''),
+              limit: 60,
+            });
+      } else {
+        data = await searchNames({
+          mode: tab,
+          roots,
+          genders,
+          letter,
+          query: needsQuery ? debouncedQuery : null,
+          match,
+          limit: 60,
+        });
+      }
       setResults(data);
       setSearched(true);
     } catch (e) {
@@ -129,7 +173,18 @@ export default function App() {
     } finally {
       setLoading(false);
     }
-  }, [tab, roots, genders, letter, debouncedQuery, needsQuery, hasActiveSearch]);
+  }, [
+    tab,
+    roots,
+    genders,
+    letter,
+    debouncedLetters,
+    barMatch,
+    debouncedQuery,
+    needsQuery,
+    isLetterTab,
+    hasActiveSearch,
+  ]);
 
   useEffect(() => {
     runSearch();
@@ -258,11 +313,24 @@ export default function App() {
               <RootFilter value={roots} onChange={setRoots} />
             </div>
 
-            {tab === 'letter' && (
-              <div>
-                <p className="mb-2 text-sm font-medium text-[#5b4130]">Starts with</p>
-                <LetterBar rootId={roots[0] ?? null} value={letter} onChange={setLetter} />
-              </div>
+            {isLetterTab && (
+              <>
+                <div>
+                  <p className="mb-2 text-sm font-medium text-[#5b4130]">Match type</p>
+                  <MatchTypeBar value={barMatch} onChange={setBarMatch} />
+                </div>
+                <div>
+                  <p className="mb-2 text-sm font-medium text-[#5b4130]">
+                    {barMatch === 'ends'
+                      ? 'Name should end with'
+                      : 'Name should start with'}
+                    <span className="ml-2 text-xs font-normal text-[#8a7a6b]">
+                      optional: pick a letter, or type several
+                    </span>
+                  </p>
+                  <LetterBar rootId={roots[0] ?? null} value={letter} onChange={setLetter} />
+                </div>
+              </>
             )}
 
             {needsQuery && (
@@ -298,16 +366,34 @@ export default function App() {
               </div>
             )}
 
+            {isLetterTab && letter === null && (
+              <div>
+                <div className="relative">
+                  <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b09a83]" />
+                  <input
+                    type="text"
+                    value={letters.join('')}
+                    onChange={(e) => setLetters([e.target.value])}
+                    placeholder={
+                      barMatch === 'ends' ? 'e.g. an, ley, e…' : 'e.g. Am, Zey, Lay…'
+                    }
+                    className="w-full rounded-xl border-0 bg-[#f9f4ec] py-3.5 pl-12 pr-4 text-base text-[#3c2d1e] ring-1 ring-[#ddd6cf] transition-shadow placeholder:text-[#b09a83] focus:outline-none focus:ring-2 focus:ring-[#a4484f]"
+                  />
+                </div>
+              </div>
+            )}
+
             <div>
               <p className="mb-2 text-sm font-medium text-[#5b4130]">Gender</p>
               <GenderFilter value={genders} onChange={setGenders} />
             </div>
 
-            {(roots.length > 0 || letter || query || genders.length > 0) && (
+            {(roots.length > 0 || letter || letters.join('') || query || genders.length > 0) && (
               <button
                 onClick={() => {
                   setRoots([]);
                   setLetter(null);
+                  setLetters([]);
                   setQuery('');
                   setGenders([]);
                 }}
@@ -317,10 +403,11 @@ export default function App() {
               </button>
             )}
 
-            {tab === 'letter' && !letter && (
+            {isLetterTab && letter === null && debouncedLetters.length === 0 && (
               <p className="text-sm text-[#8a7a6b]">
-                Every name has a first letter. Pick yours above and the list
-                appears.
+                Pick a letter above, or type how the name should{' '}
+                {barMatch === 'ends' ? 'end' : 'begin'} — like "Am" for
+                Amira and Amelia.
               </p>
             )}
           </div>

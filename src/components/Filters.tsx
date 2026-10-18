@@ -127,6 +127,41 @@ export function LetterBar({ rootId, value, onChange }: LetterBarProps) {
   );
 }
 
+export type MatchTypeValue = 'starts' | 'ends';
+
+interface MatchTypeBarProps {
+  value: 'starts' | 'ends';
+  onChange: (value: 'starts' | 'ends') => void;
+}
+
+export function MatchTypeBar({ value, onChange }: MatchTypeBarProps) {
+  const options: { id: MatchTypeValue; label: string }[] = [
+    { id: 'starts', label: 'Starts with' },
+    { id: 'ends', label: 'Ends with' },
+  ];
+
+  return (
+    <div className="flex gap-1.5">
+      {options.map((o) => {
+        const active = value === o.id;
+        return (
+          <button
+            key={o.id}
+            onClick={() => onChange(o.id)}
+            className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${
+              active
+                ? 'bg-[#3c2d1e] text-[#fefbf7]'
+                : 'bg-[#fefbf7] text-[#5b4130] ring-1 ring-[#ddd6cf] hover:bg-[#f2eade]'
+            }`}
+          >
+            {o.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export function selectedRootLabel(roots: string[]): string {
   if (roots.length === 0) return 'all roots';
   if (roots.length === ROOTS.length) return 'all roots';
