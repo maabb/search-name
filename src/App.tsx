@@ -208,7 +208,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f9f4ec] font-sans text-[#3c2d1e]">
+    <div className="paper-backdrop min-h-screen font-sans text-[#3c2d1e]">
       {/* Hero */}
       <header className="bg-[#f5d8c1]/50 pb-10 pt-12 sm:pt-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">

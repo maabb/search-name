@@ -18,4 +18,18 @@
     font-family: 'Newsreader', Georgia, serif;
     letter-spacing: -0.01em;
   }
+
+  /* mottled aged-paper backdrop: warm sepia base, blotchy stains,
+     darker edges like the tea-stained letter stock in the reference */
+  .paper-backdrop {
+    background-color: #ecdcc3;
+    background-image:
+      radial-gradient(60% 45% at 12% 8%, rgba(196, 158, 112, 0.35) 0%, transparent 60%),
+      radial-gradient(50% 40% at 88% 12%, rgba(186, 148, 104, 0.30) 0%, transparent 60%),
+      radial-gradient(45% 40% at 78% 72%, rgba(178, 138, 96, 0.28) 0%, transparent 65%),
+      radial-gradient(55% 45% at 22% 82%, rgba(190, 152, 108, 0.30) 0%, transparent 60%),
+      radial-gradient(40% 30% at 52% 42%, rgba(255, 248, 233, 0.45) 0%, transparent 70%),
+      radial-gradient(140% 110% at 50% 45%, transparent 55%, rgba(120, 84, 46, 0.22) 85%, rgba(96, 64, 32, 0.32) 100%);
+    background-attachment: fixed, fixed, fixed, fixed, fixed, fixed;
+  }
 }
