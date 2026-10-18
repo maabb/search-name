@@ -12,7 +12,7 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
   const genderTone = GENDER_TONES[item.gender];
 
   return (
-    <article className="group relative overflow-hidden rounded-xl shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+    <article className="group relative overflow-hidden rounded-lg shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
       {/* aged letter-paper background */}
       <div
         aria-hidden
@@ -35,33 +35,36 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
         className="absolute inset-0"
         style={{
           background:
-            'radial-gradient(90% 70% at 50% 40%, transparent 55%, rgba(150,125,85,0.10) 100%)',
+            'radial-gradient(90% 70% at 50% 40%, transparent 55%, rgba(150,125,85,0.12) 100%), radial-gradient(30% 20% at 85% 90%, rgba(170,140,95,0.10) 0%, transparent 70%)',
         }}
       />
 
-      {/* partial double border — opens at the corners for the flowers */}
+      {/* double paper border */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-[7px] rounded-md"
         style={{
           border: '1px solid rgba(160,135,95,0.45)',
           boxShadow: 'inset 0 0 0 2.5px rgba(247,239,223,0.9), inset 0 0 0 3.5px rgba(160,135,95,0.30)',
-          maskImage:
-            'linear-gradient(to right, transparent 0, transparent 34px, black 56px, black calc(100% - 56px), transparent calc(100% - 34px)), linear-gradient(to bottom, transparent 0, transparent 34px, black 56px, black calc(100% - 56px), transparent calc(100% - 34px))',
-          maskComposite: 'intersect',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent 0, transparent 34px, black 56px, black calc(100% - 56px), transparent calc(100% - 34px)), linear-gradient(to bottom, transparent 0, transparent 34px, black 56px, black calc(100% - 56px), transparent calc(100% - 34px))',
-          WebkitMaskComposite: 'source-in',
         }}
       />
 
-      {/* vine ornament corners (twine knot takes the top right) */}
-      <CornerSprig className="absolute left-0 top-0" />
-      <CornerSprig className="absolute bottom-0 left-0 -scale-y-100" />
-      <CornerSprig className="absolute bottom-0 right-0 -scale-100" />
-      <TwineKnot className="absolute right-0 top-0" />
+      {/* straw ribbon wrapped around the letter */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-[11px] h-[13px]"
+        style={{
+          background:
+            'repeating-linear-gradient(90deg, #c9a768 0px, #b68f52 5px, #dcbd83 9px, #c9a768 14px), repeating-linear-gradient(to bottom, rgba(255,238,198,0.45) 0px, rgba(255,238,198,0.45) 1px, transparent 1px, transparent 4px)',
+          boxShadow:
+            '0 1.5px 2.5px rgba(96,66,24,0.35), inset 0 1px 0 rgba(255,240,200,0.55), inset 0 -1.5px 0 rgba(96,66,24,0.4), inset 6px 0 6px -4px rgba(96,66,24,0.45), inset -6px 0 6px -4px rgba(96,66,24,0.45)',
+        }}
+      />
 
-      <div className="relative p-5 pl-6">
+      {/* straw bow at the top right, where the ribbon is tied */}
+      <StrawBow className="absolute -top-1.5 right-2" />
+
+      <div className="relative p-5 pt-9 pl-6">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="truncate font-serif text-2xl font-semibold leading-tight text-[#3c2d1e]">
@@ -134,27 +137,67 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
   );
 }
 
-function CornerSprig({ className }: { className: string }) {
+function StrawBow({ className }: { className: string }) {
   return (
-    <img
+    <svg
       aria-hidden
-      src="/assets/images/image%20copy.png"
-      alt=""
-      className={`pointer-events-none h-10 w-auto mix-blend-multiply ${className}`}
-      style={{ opacity: 0.8 }}
-    />
-  );
-}
+      viewBox="0 0 104 84"
+      className={`pointer-events-none h-[68px] w-[84px] ${className}`}
+      fill="none"
+      style={{ filter: 'drop-shadow(0 1.5px 1.5px rgba(96,66,24,0.3))' }}
+    >
+      {/* trailing ends of the ribbon */}
+      <path
+        d="M47 40 C40 54 34 64 24 76"
+        stroke="#b68f52"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M57 40 C63 55 68 65 79 75"
+        stroke="#a67f45"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M47 40 C40 54 34 64 24 76"
+        stroke="#dcbD83"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
+      <path
+        d="M57 40 C63 55 68 65 79 75"
+        stroke="#d9ba7e"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.8"
+      />
 
-function TwineKnot({ className }: { className: string }) {
-  return (
-    <img
-      aria-hidden
-      src="/assets/images/image%20copy%202.png"
-      alt=""
-      className={`pointer-events-none h-16 w-auto mix-blend-multiply ${className}`}
-      style={{ opacity: 0.85 }}
-    />
+      {/* loops */}
+      <path
+        d="M50 36 C36 14 10 14 8 30 C6 44 32 48 50 36 Z"
+        fill="#cda868"
+        stroke="#8f6a34"
+        strokeWidth="1.4"
+      />
+      <path
+        d="M54 36 C68 14 94 14 96 30 C98 44 72 48 54 36 Z"
+        fill="#c39c58"
+        stroke="#8f6a34"
+        strokeWidth="1.4"
+      />
+
+      {/* straw fibers across the loops */}
+      <path d="M14 26 C24 20 36 22 46 32" stroke="#a67f45" strokeWidth="1" opacity="0.7" />
+      <path d="M12 34 C24 32 38 34 47 38" stroke="#a67f45" strokeWidth="1" opacity="0.6" />
+      <path d="M90 26 C80 20 68 22 58 32" stroke="#93703a" strokeWidth="1" opacity="0.7" />
+      <path d="M92 34 C80 32 66 34 57 38" stroke="#93703a" strokeWidth="1" opacity="0.6" />
+
+      {/* knot */}
+      <ellipse cx="52" cy="37" rx="8" ry="7" fill="#b0874a" stroke="#7c5a28" strokeWidth="1.4" />
+      <path d="M46 34 C50 32 55 32 58 35" stroke="#e6cc92" strokeWidth="1.2" opacity="0.9" />
+    </svg>
   );
 }
 
