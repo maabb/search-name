@@ -1,11 +1,13 @@
-import { type LucideIcon, BookOpen, Languages, ArrowRightLeft } from 'lucide-react';
+import { type LucideIcon, BookOpen, Languages, ArrowRightLeft, MoonStar } from 'lucide-react';
 
 export interface RootInfo {
   id: string;
   label: string;
   nativeName: string;
   flag: string;
+  emoji: string | null;
   icon: LucideIcon;
+  iconColor: string | null;
   accent: string;
   accentText: string;
   letterCase: string;
@@ -17,7 +19,9 @@ export const ROOTS: RootInfo[] = [
     label: 'English',
     nativeName: 'English heritage',
     flag: 'EN',
+    emoji: '🇬🇧',
     icon: BookOpen,
+    iconColor: null,
     accent: '#efe5d3',
     accentText: '#6b4e2e',
     letterCase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -27,7 +31,9 @@ export const ROOTS: RootInfo[] = [
     label: 'German',
     nativeName: 'Deutsch',
     flag: 'DE',
+    emoji: '🇩🇪',
     icon: Languages,
+    iconColor: null,
     accent: '#e7d9bf',
     accentText: '#5c4429',
     letterCase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ',
@@ -37,7 +43,9 @@ export const ROOTS: RootInfo[] = [
     label: 'Turkish',
     nativeName: 'Türkçe',
     flag: 'TR',
+    emoji: '🇹🇷',
     icon: ArrowRightLeft,
+    iconColor: null,
     accent: '#e2d2b6',
     accentText: '#6a4f2c',
     letterCase: 'ABCDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ',
@@ -47,7 +55,9 @@ export const ROOTS: RootInfo[] = [
     label: 'Arabic',
     nativeName: 'العربية',
     flag: 'AR',
-    icon: BookOpen,
+    emoji: null,
+    icon: MoonStar,
+    iconColor: '#15803d',
     accent: '#dcc9a9',
     accentText: '#5a4226',
     letterCase: 'ABCDEFGHJKLMNPQRSTUVWXYZ',

@@ -516,11 +516,14 @@ export default function App() {
   );
 }
 
-function FlagIcon({ rootId }: { rootId: string }) {
+function FlagIcon({ rootId, className = 'h-4 w-4' }: { rootId: string; className?: string }) {
   const info = rootInfo(rootId);
   if (!info) return null;
+  if (info.emoji) {
+    return <span className={className} role="img" aria-label={`${info.label} flag`}>{info.emoji}</span>;
+  }
   const Icon = info.icon;
-  return <Icon className="h-4 w-4" />;
+  return <Icon className={className} style={info.iconColor ? { color: info.iconColor } : undefined} />;
 }
 
 function RootPrompts({ onPickRoot }: { onPickRoot: (root: string) => void }) {

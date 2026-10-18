@@ -71,7 +71,7 @@ export function RootFilter({ value, onChange }: RootFilterProps) {
             }`}
             style={active ? { background: r.accent, color: r.accentText } : undefined}
           >
-            <span className="text-[10px] font-bold tracking-wide">{r.flag}</span>
+            <span className="text-sm leading-none">{r.emoji ?? r.flag}</span>
             {r.label}
           </button>
         );

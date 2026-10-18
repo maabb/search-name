@@ -46,7 +46,7 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
             color: info?.accentText ?? '#5b4130',
           }}
         >
-          <span className="text-[10px] font-bold tracking-wide">{info?.flag}</span>
+          <span className="text-sm leading-none">{info.emoji ?? info.flag}</span>
           {ROOT_LABEL[item.root] ?? item.root} root
         </span>
         {genderTone && (
