@@ -163,7 +163,7 @@ export function CultureRequest() {
             </>
           )}
         </button>
-  </>
+  </div>
       </form>
     </div>
   );
