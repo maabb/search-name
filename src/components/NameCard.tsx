@@ -24,10 +24,19 @@ export function NameCard({ item, showScore }: Props) {
       />
 
       <div className="relative flex flex-1 flex-col p-5">
-        <div>
+        <div className="flex items-center justify-between gap-3">
           <h3 className="truncate font-serif text-2xl font-semibold text-[#3c2d1e]">
             {item.name}
           </h3>
+          {item.root === 'arabic' && item.native_script && (
+            <span
+              dir="rtl"
+              lang="ar"
+              className="shrink-0 font-serif text-2xl leading-none text-[#3c2d1e]"
+            >
+              {item.native_script}
+            </span>
+          )}
         </div>
 
         <p className="mt-2 text-[15px] font-medium leading-relaxed text-[#5b4130]">
