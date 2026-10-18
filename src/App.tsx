@@ -411,7 +411,7 @@ export default function App() {
           {!loading && !error && results.length > 0 && (
             <>
               <div className="mb-4 flex items-baseline gap-3">
-                <h2 className="flex items-center gap-2 font-serif text-2xl font-semibold text-[#3c2d1e] ml-12">
+                <h2 className="flex items-center gap-2 font-serif text-2xl font-semibold text-[#3c2d1e] ml-2">
                   
                    Names waiting for you
                 </h2>
