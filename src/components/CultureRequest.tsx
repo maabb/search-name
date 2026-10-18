@@ -109,7 +109,6 @@ export function CultureRequest() {
         <div>
           <label htmlFor="culture-message" className="mb-1.5 block text-sm font-medium text-[#5b4130]">
             Anything else you'd love to see?{' '}
-            <span className="text-xs font-normal text-[#8a7a6b]">optional</span>
           </label>
           <textarea
             id="culture-message"
