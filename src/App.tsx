@@ -337,7 +337,7 @@ export default function App() {
               <div>
                 <p className="mb-2 text-sm font-medium text-[#5b4130]">
                   {tab === 'meaning'
-                    ? 'The wish behind the name'
+                    ? 'Most close meaning'
                     : 'A name you already love'}
                 </p>
                 <div className="relative">
