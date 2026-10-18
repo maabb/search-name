@@ -418,7 +418,6 @@ export default function App() {
                 <p className="text-sm text-[#8a7a6b]">
                   {results.length} name{results.length === 1 ? '' : 's'}
                   {totalPages > 1 ? ` · page ${safePage} of ${totalPages}` : ''}
-                  {' · '}
                   
                 </p>
               </div>
