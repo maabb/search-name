@@ -3,13 +3,12 @@ import type { NameResult } from '@/lib/supabase';
 
 interface Props {
   item: NameResult;
-  onExploreMeaning: (meaning: string) => void;
   showScore?: boolean;
 }
 
 const CARD_BG = "url('/assets/images/image%20copy%203.png')";
 
-export function NameCard({ item, onExploreMeaning, showScore }: Props) {
+export function NameCard({ item, showScore }: Props) {
   const info = rootInfo(item.root);
   const genderTone = GENDER_TONES[item.gender];
 
@@ -58,13 +57,6 @@ export function NameCard({ item, onExploreMeaning, showScore }: Props) {
               {Math.round(item.score * 100)}% match
             </span>
           )}
-          <button
-            onClick={() => onExploreMeaning(item.meaning.split(',')[0].trim())}
-            className="ml-auto rounded-full px-2.5 py-1 text-xs font-medium text-[#8a7a6b] transition-colors hover:bg-[#f3eadd] hover:text-[#5b4130]"
-            title="Find names with a similar meaning"
-          >
-            Similar
-          </button>
         </div>
       </div>
     </article>

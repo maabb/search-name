@@ -173,15 +173,6 @@ export default function App() {
     runSearch();
   }, [runSearch]);
 
-  const exploreMeaning = useCallback((meaning: string) => {
-    setTab('meaning');
-    setQuery(meaning);
-    document.getElementById('tell-us-what-matters')?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    });
-  }, []);
-
   const pickRoot = useCallback((rootId: string) => {
     setRoots([rootId]);
     document.getElementById('tell-us-what-matters')?.scrollIntoView({
@@ -438,7 +429,6 @@ export default function App() {
                   <NameCard
                     key={item.id}
                     item={item}
-                    onExploreMeaning={exploreMeaning}
                     showScore={tab === 'meaning' || tab === 'name'}
                   />
                 ))}
