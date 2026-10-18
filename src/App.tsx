@@ -421,7 +421,7 @@ export default function App() {
                   {' · '}
                   {selectedRootLabel(roots)}
                   {selectedGenderLabel(genders)}
-                  {tab === 'browse' ? ' · most popular first' : ''}
+                  
                 </p>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
