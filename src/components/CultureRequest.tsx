@@ -65,7 +65,8 @@ export function CultureRequest() {
           Thank you, your wish is with us
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-[#7a6a58]">
-          We read every suggestion carefully and stay connected to share updates, new features, and exciting things to come.
+          We read every suggestion carefully. 
+          Stay connected to share updates, new features, and exciting things to come.
         </p>
       </div>
     );
