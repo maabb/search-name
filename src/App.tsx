@@ -209,7 +209,7 @@ export default function App() {
             <span className="font-serif text-2xl font-semibold tracking-tight text-[#722f37]">VibeName</span>
           </div>
           <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full bg-[#fefbf7] px-4 py-1.5 text-sm font-medium text-[#6f4100] ring-1 ring-[#ddd6cf]">
-            Search, discover And select the name which touches your heart
+            Search, discover and select the name which touches your heart
           </div>
           <h1 className="font-serif text-4xl font-semibold leading-tight tracking-tight text-[#3c2d1e] sm:text-5xl">
             Behind every name,
