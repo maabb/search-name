@@ -13,6 +13,7 @@ import {
   Globe2,
   Heart,
   Sprout,
+  Wand2,
 } from 'lucide-react';
 import { NameCard } from '@/components/NameCard';
 import { CultureRequest } from '@/components/CultureRequest';
@@ -224,7 +225,7 @@ export default function App() {
               { icon: BookOpen, text: "Every name has a story, Find yours" },
               { icon: Globe2, text: "Heritages woven together" },
               { icon: Heart, text: "Baby names for multicultural families" },
-              { icon: Ai, text: "AI-POWERED NAME DISCOVERY" },
+              { icon: Wand2, text: "AI-POWERED NAME DISCOVERY" },
             ].map(({ icon: Icon, text }) => (
               <span
                 key={text}
