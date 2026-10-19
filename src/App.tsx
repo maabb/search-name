@@ -105,7 +105,7 @@ export default function App() {
 
   useEffect(() => {
     setLetters([]);
-  }, [roots, tab]);
+  }, [tab]);
 
   useEffect(() => {
     setPage(1);
@@ -315,6 +315,11 @@ export default function App() {
               <RootFilter value={roots} onChange={setRoots} />
             </div>
 
+            <div>
+              <p className="mb-2 text-sm font-medium text-[#5b4130]">Gender</p>
+              <GenderFilter value={genders} onChange={setGenders} />
+            </div>
+
             {isLetterTab && (
               <div>
                 <div className="mb-2 flex items-center justify-between gap-3">
@@ -370,11 +375,6 @@ export default function App() {
                 </div>
               </div>
             )}
-
-            <div>
-              <p className="mb-2 text-sm font-medium text-[#5b4130]">Gender</p>
-              <GenderFilter value={genders} onChange={setGenders} />
-            </div>
 
             {(roots.length > 0 || letters.join('') || query || genders.length > 0) && (
               <button
