@@ -500,11 +500,9 @@ export default function App() {
           </div>
           <p className="font-serif text-xl font-medium leading-snug text-[#3c2d1e] sm:text-2xl">
             A little name for a love beyond words.
-            <span className="mt-1 block">Every name begins with a story.</span>
           </p>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[#7a6a58]">
-            Let yours unfold. Meaning, heritage, and heart, all in one name
-            both sides of the family can say with pride.
+            Let yours unfold. Meaning, heritage, and heart, all in one name.
           </p>
         </div>
       </footer>
