@@ -219,7 +219,7 @@ export default function App() {
             {[
               { icon: BookOpen, text: "Every name carries a story" },
               { icon: Globe2, text: "Heritages woven together" },
-              { icon: Heart, text: "A name that feels like yours" },
+              { icon: Heart, text: "Baby names for multicultural families" },
             ].map(({ icon: Icon, text }) => (
               <span
                 key={text}
