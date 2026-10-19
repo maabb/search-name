@@ -204,7 +204,7 @@ export default function App() {
       <header className="bg-[#f5d8c1]/50 pb-10 pt-12 sm:pt-16">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full bg-[#fefbf7] px-4 py-1.5 text-sm font-medium text-[#6f4100] ring-1 ring-[#ddd6cf]">
-            Search .. Discover .. Select the name which touch your heart
+            Search, discover And select the name which touch your heart
           </div>
           <h1 className="font-serif text-4xl font-semibold leading-tight tracking-tight text-[#3c2d1e] sm:text-5xl">
             Behind every name,
