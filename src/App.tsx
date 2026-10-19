@@ -503,7 +503,7 @@ export default function App() {
             <span className="mt-1 block">Every name begins with a story.</span>
           </p>
           <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-[#7a6a58]">
-            Let yours unfold — meaning, heritage, and heart, all in one name
+            Let yours unfold. Meaning, heritage, and heart, all in one name
             both sides of the family can say with pride.
           </p>
         </div>
