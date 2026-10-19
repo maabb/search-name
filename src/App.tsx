@@ -204,8 +204,8 @@ export default function App() {
       <header className="bg-[#f5d8c1]/50 pb-10 pt-10 sm:pt-14">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <div className="mx-auto mb-6 flex items-center justify-center gap-2.5">
-            <img src="/favicon.svg" alt="RootName" className="h-11 w-11 rounded-xl shadow-sm ring-1 ring-[#ddd6cf]" />
-            <span className="font-serif text-2xl font-semibold tracking-tight text-[#722f37]">RootName</span>
+            <img src="/favicon.svg" alt="VibeName" className="h-11 w-11 rounded-xl shadow-sm ring-1 ring-[#ddd6cf]" />
+            <span className="font-serif text-2xl font-semibold tracking-tight text-[#722f37]">VibeName</span>
           </div>
           <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full bg-[#fefbf7] px-4 py-1.5 text-sm font-medium text-[#6f4100] ring-1 ring-[#ddd6cf]">
             Search, discover And select the name which touches your heart
@@ -494,8 +494,8 @@ export default function App() {
       <footer className="relative overflow-hidden border-t border-[#ddd6cf] bg-[#f5d8c1]/40 py-12">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
           <div className="mx-auto mb-5 flex items-center justify-center gap-2.5">
-            <img src="/favicon.svg" alt="RootName" className="h-10 w-10 rounded-lg shadow-sm ring-1 ring-[#ddd6cf]" />
-            <span className="font-serif text-xl font-semibold tracking-tight text-[#722f37]">RootName</span>
+            <img src="/favicon.svg" alt="VibeName" className="h-10 w-10 rounded-lg shadow-sm ring-1 ring-[#ddd6cf]" />
+            <span className="font-serif text-xl font-semibold tracking-tight text-[#722f37]">VibeName</span>
           </div>
           <p className="font-serif text-xl font-medium leading-snug text-[#3c2d1e] sm:text-2xl">
             A little name for a love beyond words.
