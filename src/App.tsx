@@ -217,9 +217,10 @@ export default function App() {
           {/* Quick trust strip */}
           <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-2 text-sm text-[#7a6a58]">
             {[
-              { icon: BookOpen, text: "Every name carries a story" },
+              { icon: BookOpen, text: "Every name has a story, Find yours" },
               { icon: Globe2, text: "Heritages woven together" },
               { icon: Heart, text: "Baby names for multicultural families" },
+              { icon: Ai, text: "AI-POWERED NAME DISCOVERY" },
             ].map(({ icon: Icon, text }) => (
               <span
                 key={text}
